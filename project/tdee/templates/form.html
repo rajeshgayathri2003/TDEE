@@ -1,0 +1,324 @@
+{% load static%}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Transmission Lines</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+      html, body {
+      min-height: 100%;
+      }
+      body, div, form, input, select, textarea, label { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 22px;
+      }
+      h1 {
+      position: absolute;
+      margin: 0;
+      font-size: 50px;
+      color: #fff;
+      z-index: 2;
+      line-height: 83px;
+      }
+      legend {
+      padding: 10px;      
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 18px;
+      color: #fff;
+      background-color: #006622;
+      }
+      textarea {
+      width: calc(100% - 12px);
+      padding: 5px;
+      }
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 20px;
+      }
+      form {
+      width: 100%;
+      padding: 20px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 0 8px #006622; 
+      }
+      .banner {
+      position: relative;
+      height: 250px;
+      background-image: url("{%static 'tdee.jpeg'%}");  
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      }
+      .banner::after {
+      content: "";
+      background-color: rgba(0, 0, 0, 0.4); 
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      }
+      input, select, textarea {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+      input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      }
+      input[type="date"] {
+      padding: 4px 5px;
+      }
+      textarea {
+      width: calc(100% - 12px);
+      padding: 5px;
+      }
+      .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
+      color:  #006622;
+      }
+      .item input:hover, .item select:hover, .item textarea:hover {
+      border: 1px solid transparent;
+      box-shadow: 0 0 3px 0  #006622;
+      color: #006622;
+      }
+
+      .item select:hover, .item select:hover, .item textarea:hover {
+      border: 1px solid transparent;
+      box-shadow: 0 0 3px 0  #006622;
+      color: #006622;
+      }
+
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+      .item span {
+      color: red;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      font-size: 20px;
+      color: #00b33c;
+      }
+      .item i {
+      right: 1%;
+      top: 30px;
+      z-index: 1;
+      }
+      .week {
+      display:flex;
+      justify-content:space-between;
+      }
+      .columns {
+      display:flex;
+      justify-content:space-between;
+      flex-direction:row;
+      flex-wrap:wrap;
+      }
+      .columns div {
+      width:48%;
+      }
+      [type="date"]::-webkit-calendar-picker-indicator {
+      right: 1%;
+      z-index: 2;
+      opacity: 0;
+      cursor: pointer;
+      }
+      input[type=radio], input[type=checkbox]  {
+      display: none;
+      }
+      label.radio {
+      position: relative;
+      display: inline-block;
+      margin: 5px 20px 15px 0;
+      cursor: pointer;
+      }
+      .question span {
+      margin-left: 30px;
+      }
+      .question-answer label {
+      display: block;
+      }
+      label.radio:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      }
+      input[type=radio]:checked + label:before, label.radio:hover:before {
+      border: 2px solid  #006622;
+      }
+      label.radio:after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 5px;
+      width: 8px;
+      height: 4px;
+      border: 3px solid  #006622;
+      border-top: none;
+      border-right: none;
+      transform: rotate(-45deg);
+      opacity: 0;
+      }
+      input[type=radio]:checked + label:after {
+      opacity: 1;
+      }
+      .flax {
+      display:flex;
+      justify-content:space-around;
+      }
+      .btn-block {
+      margin-top: 10px;
+      text-align: center;
+      }
+      button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px; 
+      background:  #006622;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+      button:hover {
+      background:  #00b33c;
+      }
+      @media (min-width: 568px) {
+      .name-item, .city-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      }
+      .name-item input, .name-item div {
+      width: calc(50% - 20px);
+      }
+      .name-item div input {
+      width:97%;}
+      .name-item div label {
+      display:block;
+      padding-bottom:5px;
+      }
+      }
+    </style>
+  </head>
+  <body>
+    {%csrf_token%}
+    <div class="testbox">
+    <form action="#" method="POST">
+      {%csrf_token%}
+      <div class="banner">
+        <h1>Line Parameters of Transmission System</h1>
+      </div>
+      <br/>
+      <fieldset>
+        <legend>Conductor Details</legend>
+        <div class="columns">
+          <div class="item">
+            <label for="type">Type of the System<span>*</span></label>
+            <select id="type" type="text" name="type">
+        <option value="Symmetrical">Symmetrical</option>
+        <option value="Unsymmetrical">Unsymmetrical</option>
+        </select>
+          </div>
+          
+          <div class="item">
+            <label for="spacingpc1">Spacing between phase conductors<span>*</span></label>
+            <input id="spacingpc1" type="number" min="0"  name="spacingpc1" />
+          </div>
+
+          <div class="item">
+            <label for="spacingpc2">Spacing between phase conductors<span>*</span></label>
+            <input id="spacingpc2" type="number" min="0"  name="spacingpc2" />
+          </div>
+
+          <div class="item">
+            <label for="spacingpc3">Spacing between phase conductors<span>*</span></label>
+            <input id="spacingpc3" type="number" min="0"  name="spacingpc3" />
+          </div>
+
+          <div class="item">
+            <label for="numberofsc">Number of sub-conductors per bundle<span>*</span></label>
+            <input id="numberofsc" type="number" min="0"  name="numberofsc" required/>
+          </div>
+          <div class="item">
+            <label for="spacingsc">Spacing between the sub-conductors<span>*</span></label>
+            <input id="spacingsc" type="number" min="0"   name="spacingsc" />
+          </div>
+          <div class="item">
+            <label for="strands">Number of strands in each sub-conductor<span>*</span></label>
+            <input id="strands" type="number" min="0"   name="strands" />
+          </div>
+          <div class="item">
+            <label for="diameter">Diameter of each strand<span>*</span></label>
+            <input id="diameter" type="number" min="0"   name="diameter" />
+          </div>
+          <div class="item">
+            <label for="lengthkm">Length of the line in km<span>*</span></label>
+            <input id="lengthkm" type="number" min="0"   name="lengthkm" />
+          </div>
+<div class="item">
+            <label for="model">Model of the line<span>*</span></label>
+            <select id="model" type="text" name="model">
+<option value="Short">Short</option>
+<option value="Nominal Pi">Nominal Pi</option>
+</select>
+</div>
+<div class="item">
+            <label for="resistance">Resistance of the line per kilometer<span>*</span></label>
+            <input id="resistance" type="number" min="0"   name="resistance" />
+          </div>
+          </div>
+
+      </fieldset>
+      <br/>
+      <fieldset>
+      <legend>Voltage and Power</legend>
+      <div class="columns">
+      <div class="item">
+      <label for="powerfrequency">Power Frequency <span>*</span></label>
+      <input id="powerfrequency" type="number" min="0" name="powerfrequency" />
+      
+      </div>
+      <div class="item">
+      <label for="nomsysvoltage">Nominal System Voltage <span>*</span></label>
+      <input id="nomsysvoltage" type="number" min="0" name="nomsysvoltage" />
+      
+      </div>
+<div class="item">
+      <label for="load">Receiving End load in MW <span>*</span></label>
+      <input id="load" type="number" min="0" name="load" />
+      
+      </div>
+<div class="item">
+<label for="pf">Power factor of the receiving end load<span>*</span></label>
+      <input id="pf" type="float" max = "1" min ="-1" name="pf" />
+      
+      </div>
+      
+      <div class="btn-block">
+      <button type="submit" formaction="{% url 'receivedata' %}">Submit</button>
+      </div>
+    </form>
+    </div>
+  </body>
+</html>
