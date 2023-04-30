@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from tdee import tdee
+import csv
 
 def homePage(request):
 	return render(request, "form.html")
@@ -11,14 +12,14 @@ def welcome(request):
 def receivedata(request):
         if request.method == "POST":
                 system_type = request.POST['type']
-                spacing_phase1 = int(request.POST['spacingpc1'])
-                spacing_phase2= int(request.POST['spacingpc2'])
-                spacing_phase3 = int(request.POST['spacingpc3'])
+                spacing_phase1 = float(request.POST['spacingpc1'])
+                spacing_phase2= float(request.POST['spacingpc2'])
+                spacing_phase3 = float(request.POST['spacingpc3'])
                 subconductor = int(request.POST['numberofsc'])
-                spacing_subconductor = int(request.POST['spacingsc'])
+                spacing_subconductor = float(request.POST['spacingsc'])
                 strands = int(request.POST['strands'])
-                diameter = int(request.POST['diameter'])
-                line_length = int(request.POST['lengthkm'])
+                diameter = float(request.POST['diameter'])
+                line_length = float(request.POST['lengthkm'])
                 line_model = request.POST['model']
                 resistance = int(request.POST['resistance'])
                 power_frequency = int(request.POST['powerfrequency'])
@@ -52,10 +53,16 @@ def receivedata(request):
 
                 efficiency = tdee.efficiency(sending_in_voltage, sending_in_current, receiving_load, nominal_voltage, power_factor)*100
 
-
                 dict_ = {'inductance':inductance, 'capacitance': capacitance, 'inductivereactance': xl,'capacitivereactance':xc, 'chargingcurrent': charging_current, 'ABCD': ABCD,
                          'sendinginvoltage': sending_in_voltage, 'sendingincurrent': sending_in_current, 'voltageregulation': voltage_regulation, 'powerLoss': powerLoss, 'efficiency': efficiency 
                              }
+                with open('parameters.csv', 'a') as csvfile:
+                        writer = csv.writer(csvfile, delimiter= ' ')
+                        for key in dict_:
+                                writer.writerow([key, dict_[key]])
+
+
+                
                 return render(request, "parameters.html", dict_)
         else:
                 return render(request, "parameters.html")

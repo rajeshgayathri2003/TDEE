@@ -10,6 +10,7 @@ math.log(math.e)
 
 #gmd
 #symetrical
+#in metres
 def find_GMD_sym(spacing_phase):
     gmd_sym=spacing_phase
     return gmd_sym
@@ -66,6 +67,7 @@ def inductive_reactance(ls):
     return xl
 
 def charging_current(nominal_voltage, xc):
+    nominal_voltage = nominal_voltage*10**3
     ch_i=nominal_voltage/(xc*math.sqrt(3)) 
     return ch_i
 
@@ -86,6 +88,8 @@ def ABCD_parameters(line_model, resistance, xl, xc):
         return [[a_pi, b_pi], [c_pi, d_pi]]
     
 def sending_in_voltage(receiving_load, nominal_voltage, power_factor, ABCD):
+    #nominal_voltage = nominal_voltage*10**3
+    #receiving_load = receiving_load*10**6
     receiving_current= receiving_load/(1.73*nominal_voltage*power_factor)
     receiving_current_rad= math.acos(.9)
     receiving_current_deg=receiving_current_rad*( 180/3.14 )*(-1)
@@ -102,15 +106,20 @@ def sending_in_voltage(receiving_load, nominal_voltage, power_factor, ABCD):
     return v_sending, i_sending
 
 def voltage_regulation(v_sending, nominal_voltage):
+    #nominal_voltage = nominal_voltage*10**3
     voltage_regulation = (abs(v_sending) - (nominal_voltage/math.sqrt(3)))/(nominal_voltage/math.sqrt(3))
     return voltage_regulation
 
 def powerLoss(v_sending, i_sending, receiving_load, nominal_voltage, power_factor):
+    #nominal_voltage = nominal_voltage*10**3
+    #receiving_load = receiving_load*10**6
     i_receiving = receiving_load/(1.73*nominal_voltage*power_factor)
     loss = (abs(v_sending)*abs(i_sending)*math.cos(cmath.phase(v_sending/i_sending))- nominal_voltage*abs(i_receiving)*math.cos(cmath.phase(nominal_voltage/i_receiving))/(math.sqrt(3)) )
     return loss
 
 def efficiency(v_sending,i_sending, receiving_load, nominal_voltage, power_factor):
+    #receiving_load = receiving_load*10**6
+    #nominal_voltage = nominal_voltage*10**3
     i_receiving = receiving_load/(1.73*nominal_voltage*power_factor)
     n=(nominal_voltage*abs(i_receiving)*math.cos(cmath.phase(nominal_voltage/i_receiving))/(math.sqrt(3)))/abs(v_sending)*abs(i_sending)*math.cos(cmath.phase(v_sending/i_sending))
     return n
